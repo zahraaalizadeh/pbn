@@ -1,5 +1,4 @@
 import pytest
-
 from app.image_processing import color_conversion
 from app.models import dataclasses
 
@@ -30,3 +29,21 @@ def test_rgb2lab(rgb, expected_lab):
     assert all(
         abs(a - b) < 0.02 for a, b in zip(lab, expected_lab)
     ), f"Expected {expected_lab}, got {lab}"
+
+
+@pytest.mark.parametrize(
+    "lab, expected_rgb",
+    [
+        (dataclasses.LAB(0, 0, 0), [0, 0, 0]),  # Black
+        (dataclasses.LAB(100, 0, 0), [255, 255, 255]),  # White
+        (dataclasses.LAB(53.232881, 80.109309, 67.220068), [255, 0, 0]),  # Red
+        (dataclasses.LAB(87.737033, -86.184636, 83.181164), [0, 255, 0]),  # Green
+        (dataclasses.LAB(32.302586, 79.196661, -107.863681), [0, 0, 255]),  # Blue
+    ],
+)
+def test_lab2rgb_conversion(lab, expected_rgb):
+    rgb = color_conversion.lab2rgb(lab)
+    # Assert each RGB component is within a margin of error
+    assert all(
+        abs(c - e) <= 1 for c, e in zip(rgb, expected_rgb)
+    ), f"dataclasses.LAB {lab} should convert to RGB close to {expected_rgb}, got {rgb}"

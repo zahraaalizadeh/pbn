@@ -101,3 +101,10 @@ class RGB:
     r: int
     g: int
     b: int
+
+
+@dataclass
+class LAB:
+    L: float
+    a: float
+    b: float
