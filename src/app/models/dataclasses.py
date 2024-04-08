@@ -94,3 +94,10 @@ class PathPoint(Point):
 
     def __str__(self):
         return f"{self.x},{self.y} {self.orientation.value}"
+
+
+@dataclass
+class RGB:
+    r: int
+    g: int
+    b: int
