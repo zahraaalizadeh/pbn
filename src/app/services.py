@@ -2,16 +2,13 @@ import dataclasses
 from enum import Enum
 
 
-class ClusteringColorSpace(Enum):
-    RGB = "RGB"
-    HSL = "HSL"
-    LAB = "LAB"
+from . import enums
 
 
 @dataclasses.dataclass
 class Settings:
     def __init__(self):
-        self.kMeans_clustering_color_space = ClusteringColorSpace.RGB
+        self.kMeans_clustering_color_space = enums.ClusteringColorSpace.RGB
         self.remove_facets_from_large_to_small = True
         self.kMeans_nr_of_clusters = 16
         self.kMeans_min_delta_difference = 1
@@ -25,7 +22,7 @@ class Settings:
 
 def parse_settings(
     *,
-    opt_color_space: ClusteringColorSpace,
+    opt_color_space: enums.ClusteringColorSpace,
     opt_facet_removal: bool,
     nr_of_clusters: int,
     cluster_precision: float,
