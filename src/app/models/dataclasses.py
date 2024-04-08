@@ -5,6 +5,23 @@ from app.models import enums
 
 
 @dataclass
+class UserInput:
+    color_space: str = "RGB"
+    facet_removal_largest_to_smallest: bool = True
+    random_seed: int = 0
+    nr_of_clusters: int = 16
+    cluster_precision: float = 1.0
+    remove_facets_smaller_than: int = 20
+    maximum_number_of_facets: int = 2**31 - 1
+    nr_of_times_to_halve_border_segments: int = 2
+    narrow_pixel_strip_cleanup_runs: int = 3
+    resize_image: bool = True
+    resize_width: int = 1024
+    resize_height: int = 1024
+    k_means_color_restrictions: str = ""
+
+
+@dataclass
 class Settings:
     k_means_nr_of_clusters: int = 16
     k_means_min_delta_difference: int = 1
