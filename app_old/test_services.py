@@ -1,6 +1,6 @@
 import unittest
 
-from src.app import services
+from src.app_old import services
 
 
 class TestParseSettings(unittest.TestCase):
