@@ -43,7 +43,7 @@ class TestSettings:
         assert settings.narrow_pixel_strip_cleanup_runs == 3
         assert settings.remove_facets_smaller_than_nr_of_points == 20
         assert settings.remove_facets_from_large_to_small is True
-        assert settings.maximum_number_of_facets == float("inf")
+        assert settings.maximum_number_of_facets == 2**31 - 1
         assert settings.nr_of_times_to_halve_border_segments == 2
         assert settings.resize_image_if_too_large is True
         assert settings.resize_image_width == 1024

@@ -21,7 +21,7 @@ class Settings:
     narrow_pixel_strip_cleanup_runs: int = 3
     remove_facets_smaller_than_nr_of_points: int = 20
     remove_facets_from_large_to_small: bool = True
-    maximum_number_of_facets: int = float("inf")
+    maximum_number_of_facets: int = 2**31 - 1
 
     nr_of_times_to_halve_border_segments: int = 2
 
