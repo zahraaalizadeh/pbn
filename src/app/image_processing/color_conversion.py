@@ -3,6 +3,40 @@ import math
 from app.models import dataclasses
 
 
+def hsl_to_rgb(hsl: dataclasses.HSL) -> list:
+    """
+    Converts an HSL color value to RGB. Conversion formula
+    adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+    Assumes h, s, and l are contained in the set [0, 1] and
+    returns r, g, and b in the set [0, 255].
+    """
+
+    def hue2rgb(p, q, t):
+        if t < 0:
+            t += 1
+        if t > 1:
+            t -= 1
+        if t < 1 / 6:
+            return p + (q - p) * 6 * t
+        if t < 1 / 2:
+            return q
+        if t < 2 / 3:
+            return p + (q - p) * (2 / 3 - t) * 6
+        return p
+
+    h, s, l = hsl.hue, hsl.saturation, hsl.lightness  # noqa: E741
+    if s == 0:
+        r = g = b = l  # achromatic
+    else:
+        q = l * (1 + s) if l < 0.5 else l + s - l * s
+        p = 2 * l - q
+        r = hue2rgb(p, q, h + 1 / 3)
+        g = hue2rgb(p, q, h)
+        b = hue2rgb(p, q, h - 1 / 3)
+
+    return [int(r * 255), int(g * 255), int(b * 255)]
+
+
 # From https://github.com/antimatter15/rgb-lab/blob/master/color.js
 def lab2rgb(lab: dataclasses.LAB) -> list:
     y = (lab.L + 16) / 116

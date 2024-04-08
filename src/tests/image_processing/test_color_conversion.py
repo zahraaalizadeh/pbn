@@ -1,4 +1,5 @@
 import pytest
+
 from app.image_processing import color_conversion
 from app.models import dataclasses
 
@@ -47,3 +48,22 @@ def test_lab2rgb_conversion(lab, expected_rgb):
     assert all(
         abs(c - e) <= 1 for c, e in zip(rgb, expected_rgb)
     ), f"dataclasses.LAB {lab} should convert to RGB close to {expected_rgb}, got {rgb}"
+
+
+@pytest.mark.parametrize(
+    "hsl,expected_rgb",
+    [
+        (dataclasses.HSL(0, 0, 0), [0, 0, 0]),  # Black
+        (dataclasses.HSL(0, 0, 1), [255, 255, 255]),  # White
+        (dataclasses.HSL(0, 1, 0.5), [255, 0, 0]),  # Red
+        (dataclasses.HSL(1 / 3, 1, 0.5), [0, 255, 0]),  # Green
+        (dataclasses.HSL(2 / 3, 1, 0.5), [0, 0, 255]),  # Blue
+        (dataclasses.HSL(0, 0, 0.5), [128, 128, 128]),  # Gray
+    ],
+)
+def test_hsl_to_rgb(hsl, expected_rgb):
+    rgb = color_conversion.hsl_to_rgb(hsl)
+    # Allowing a small margin of error, e.g., 1 unit in the RGB space
+    assert all(
+        abs(a - b) <= 1 for a, b in zip(rgb, expected_rgb)
+    ), f"HSL {hsl} should convert to RGB close to {expected_rgb}, got {rgb}"

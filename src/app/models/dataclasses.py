@@ -108,3 +108,10 @@ class LAB:
     L: float
     a: float
     b: float
+
+
+@dataclass
+class HSL:
+    hue: float  # range [0, 1]
+    saturation: float  # range [0, 1]
+    lightness: float  # range [0, 1]
