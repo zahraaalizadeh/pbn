@@ -2,6 +2,38 @@ import math
 
 from app.models import dataclasses
 
+#  From https://stackoverflow.com/a/9493060/694640
+
+
+def rgb_to_hsl(rgb: dataclasses.RGB) -> tuple:
+    """
+    Converts an RGB color value to HSL. Conversion formula
+    adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+    Assumes r, g, and b are contained in the set [0, 255] and
+    returns h, s, and l in the set [0, 1].
+    """
+    r, g, b = rgb.r / 255.0, rgb.g / 255.0, rgb.b / 255.0
+    max_color = max(r, g, b)
+    min_color = min(r, g, b)
+    h, s, l = 0, 0, (max_color + min_color) / 2  # noqa: E741
+
+    if max_color == min_color:
+        h = s = 0  # Achromatic
+    else:
+        d = max_color - min_color
+        s = d / (2 - max_color - min_color) if l > 0.5 else d / (max_color + min_color)
+
+        if max_color == r:
+            h = (g - b) / d + (6 if g < b else 0)
+        elif max_color == g:
+            h = (b - r) / d + 2
+        elif max_color == b:
+            h = (r - g) / d + 4
+
+        h /= 6
+
+    return h, s, l
+
 
 def hsl_to_rgb(hsl: dataclasses.HSL) -> list:
     """
