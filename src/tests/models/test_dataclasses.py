@@ -88,3 +88,52 @@ class TestSettings:
         assert custom_settings.resize_image_width == 800
         assert custom_settings.resize_image_height == 600
         assert custom_settings.random_seed == 123456
+
+
+class TestPathPoint:
+    def test_path_point_initialization(self):
+        point = dataclasses.PathPoint(x=5, y=10, orientation=enums.OrientationEnum.LEFT)
+        assert point.x == 5
+        assert point.y == 10
+        assert point.orientation == enums.OrientationEnum.LEFT
+
+    def test_get_wall_x_adjustments(self):
+        # Testing adjustment based on orientation
+        point_left = dataclasses.PathPoint(
+            x=5, y=10, orientation=enums.OrientationEnum.LEFT
+        )
+        assert point_left.get_wall_x() == 4.5
+
+        point_right = dataclasses.PathPoint(
+            x=5, y=10, orientation=enums.OrientationEnum.RIGHT
+        )
+        assert point_right.get_wall_x() == 5.5
+
+        # No adjustment expected
+        point_top = dataclasses.PathPoint(
+            x=5, y=10, orientation=enums.OrientationEnum.TOP
+        )
+        assert point_top.get_wall_x() == 5
+
+    def test_get_wall_y_adjustments(self):
+        # Testing adjustment based on orientation
+        point_top = dataclasses.PathPoint(
+            x=5, y=10, orientation=enums.OrientationEnum.TOP
+        )
+        assert point_top.get_wall_y() == 9.5
+
+        point_bottom = dataclasses.PathPoint(
+            x=5, y=10, orientation=enums.OrientationEnum.BOTTOM
+        )
+        assert point_bottom.get_wall_y() == 10.5
+
+        # No adjustment expected
+        point_left = dataclasses.PathPoint(
+            x=5, y=10, orientation=enums.OrientationEnum.LEFT
+        )
+        assert point_left.get_wall_y() == 10
+
+    def test_path_point_str_representation(self):
+        point = dataclasses.PathPoint(x=5, y=10, orientation=enums.OrientationEnum.LEFT)
+        expected_str = f"5,10 {enums.OrientationEnum.LEFT.value}"
+        assert str(point) == expected_str

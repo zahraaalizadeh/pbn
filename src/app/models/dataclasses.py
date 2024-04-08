@@ -8,7 +8,9 @@ from app.models import enums
 class Settings:
     k_means_nr_of_clusters: int = 16
     k_means_min_delta_difference: int = 1
-    k_means_clustering_color_space: enums.ClusteringColorSpace = enums.ClusteringColorSpace.RGB
+    k_means_clustering_color_space: enums.ClusteringColorSpace = (
+        enums.ClusteringColorSpace.RGB
+    )
 
     # Assuming RGB is a tuple of three integers for simplicity
     k_means_color_restrictions: list[tuple | str] = field(default_factory=list)
@@ -19,7 +21,7 @@ class Settings:
     narrow_pixel_strip_cleanup_runs: int = 3
     remove_facets_smaller_than_nr_of_points: int = 20
     remove_facets_from_large_to_small: bool = True
-    maximum_number_of_facets: int = float('inf')
+    maximum_number_of_facets: int = float("inf")
 
     nr_of_times_to_halve_border_segments: int = 2
 
@@ -44,3 +46,34 @@ class PointResult:
 
 PolygonRing = list[Point]
 Polygon = list[PolygonRing]
+
+
+@dataclass
+class PathPoint(Point):
+    """
+    This is a point with an orientation that indicates which wall border is set
+    """
+
+    orientation: enums.OrientationEnum
+
+    def get_wall_x(self) -> float:
+        x = self.x
+        if self.orientation == enums.OrientationEnum.LEFT:
+            x -= 0.5
+        elif self.orientation == enums.OrientationEnum.RIGHT:
+            x += 0.5
+        return x
+
+    def get_wall_y(self) -> float:
+        y = self.y
+        if self.orientation == enums.OrientationEnum.TOP:
+            y -= 0.5
+        elif self.orientation == enums.OrientationEnum.BOTTOM:
+            y += 0.5
+        return y
+
+    def get_neighbour(self, facet_result) -> int:
+        pass
+
+    def __str__(self):
+        return f"{self.x},{self.y} {self.orientation.value}"
