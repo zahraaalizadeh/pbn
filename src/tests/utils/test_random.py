@@ -1,4 +1,4 @@
-from app.data_structures import random
+from app.utils import random
 
 
 class TestRandom:

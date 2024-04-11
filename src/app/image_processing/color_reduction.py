@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-from app.data_structures import arrays
 from app.models import dataclasses
+from app.utils import arrays
 
 
 @dataclass

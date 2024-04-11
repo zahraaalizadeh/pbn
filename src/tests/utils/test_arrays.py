@@ -1,4 +1,4 @@
-from app.data_structures import arrays
+from app.utils import arrays
 
 
 class TestArray2D:

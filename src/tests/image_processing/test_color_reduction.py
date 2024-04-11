@@ -1,6 +1,6 @@
-from app.data_structures import arrays
 from app.image_processing import color_reduction
 from app.models import dataclasses
+from app.utils import arrays
 
 
 class TestColorMapResult:
