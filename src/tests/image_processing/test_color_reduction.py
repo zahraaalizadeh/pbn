@@ -1,13 +1,13 @@
 from app.image_processing import color_reduction
 from app.models import dataclasses
-from app.utils import arrays
+from app.utils import data_structs
 
 
 class TestColorMapResult:
     def test_colormap_initialization(self):
         result = color_reduction.ColorMapResult()
         assert isinstance(
-            result.img_color_indices, arrays.Array2D
+            result.img_color_indices, data_structs.Array2D
         ), "img_color_indices should be an instance of Array2D"
         assert isinstance(
             result.colors_by_index, list
@@ -19,7 +19,7 @@ class TestColorMapResult:
     def test_colormap_with_parameters(self):
         width, height = 10, 20
         colors = [dataclasses.RGB(255, 0, 0), dataclasses.RGB(0, 255, 0)]
-        img_indices = arrays.Array2D(width, height)
+        img_indices = data_structs.Array2D(width, height)
         img_indices.set(
             0, 0, 1
         )  # Set the first element to point to the second color (index 1)

@@ -1,16 +1,16 @@
-from app.utils import arrays
+from app.utils import data_structs
 
 
 class TestArray2D:
     def test_initialization(self):
         width, height = 10, 15
-        array_2d = arrays.Array2D(width, height)
+        array_2d = data_structs.Array2D(width, height)
         assert all(
             all(cell == 0 for cell in row) for row in array_2d.array
         ), "All cells should be initialized to 0"
 
     def test_set_and_get(self):
-        array_2d = arrays.Array2D(10, 10)
+        array_2d = data_structs.Array2D(10, 10)
         test_val = 123
         x, y = 5, 5
         array_2d.set(x, y, test_val)
@@ -19,7 +19,7 @@ class TestArray2D:
         ), f"Cell at ({x}, {y}) should have the value {test_val}"
 
     def test_match_all_around(self):
-        array_2d = arrays.Array2D(3, 3)
+        array_2d = data_structs.Array2D(3, 3)
         # Set a value in the middle and surrounding cells
         value = 1
         for x in range(3):
@@ -32,7 +32,7 @@ class TestArray2D:
         ), "Middle cell should match all surrounding cells"
 
     def test_match_all_around_edge_case(self):
-        array_2d = arrays.Array2D(3, 3)
+        array_2d = data_structs.Array2D(3, 3)
         # Set only the middle cell
         array_2d.set(1, 1, 1)
         # Expect match_all_around to return False since not all surrounding cells are set to the same value
