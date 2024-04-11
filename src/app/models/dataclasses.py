@@ -115,3 +115,25 @@ class HSL:
     hue: float  # range [0, 1]
     saturation: float  # range [0, 1]
     lightness: float  # range [0, 1]
+
+
+@dataclass
+class BoundingBox:
+    minX: float = float("inf")
+    minY: float = float("inf")
+    maxX: float = float("-inf")
+    maxY: float = float("-inf")
+
+    @property
+    def width(self) -> float:
+        """Calculate width of the bounding box."""
+        if self.maxX == float("-inf") or self.minX == float("inf"):
+            return 0  # Return 0 if coordinates are not updated
+        return self.maxX - self.minX + 1
+
+    @property
+    def height(self) -> float:
+        """Calculate height of the bounding box."""
+        if self.maxY == float("-inf") or self.minY == float("inf"):
+            return 0  # Return 0 if coordinates are not updated
+        return self.maxY - self.minY + 1

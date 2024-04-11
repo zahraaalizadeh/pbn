@@ -137,3 +137,21 @@ class TestPathPoint:
         point = dataclasses.PathPoint(x=5, y=10, orientation=enums.OrientationEnum.LEFT)
         expected_str = f"5,10 {enums.OrientationEnum.LEFT.value}"
         assert str(point) == expected_str
+
+
+class TestBoundingBox:
+    def test_bounding_box(self):
+        points = [(1, 1), (2, 2), (3, 3)]
+        bbox = dataclasses.BoundingBox()
+        for x, y in points:
+            bbox.minX = min(bbox.minX, x)
+            bbox.minY = min(bbox.minY, y)
+            bbox.maxX = max(bbox.maxX, x)
+            bbox.maxY = max(bbox.maxY, y)
+
+        assert bbox.width == 3, "Width should be 3"
+        assert bbox.height == 3, "Height should be 3"
+        assert bbox.minX == 1, "minX should be 1"
+        assert bbox.maxX == 3, "maxX should be 3"
+        assert bbox.minY == 1, "minY should be 1"
+        assert bbox.maxY == 3, "maxY should be 3"
